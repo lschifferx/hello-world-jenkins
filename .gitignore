@@ -8,7 +8,7 @@
 *.class
 *.project
 *.classpath
-.settings/
+.settings
 
 # SO
 .DS_Store

@@ -12,10 +12,8 @@ pipeline {
   }
 
   environment {
-    // Configure no Jenkins: Manage Jenkins > Global Tool Configuration
-    JDK = 'jdk17'          // nome da instalação JDK
-    MVN = 'maven-3.9'      // nome da instalação Maven
-    // Variáveis de "deploy" (placeholder)
+    JDK = 'jdk17'
+    MVN = 'maven-3.9' 
     STG_HOST = 'stg.example.internal'
     PRD_HOST = 'prd.example.internal'
     ARTIFACT = "target/hello-jenkins-${params.APP_VERSION}.jar"
@@ -31,13 +29,11 @@ pipeline {
     stage('Checkout') {
       steps {
         checkout scm
-        stash name: 'source', includes: '**/*'
       }
     }
 
     stage('Build & Test') {
       steps {
-        unstash 'source'
         sh 'mvn -B -q clean verify'
       }
       post {
@@ -58,7 +54,6 @@ pipeline {
     stage('Deploy to STG') {
       steps {
         echo "Fazendo deploy da versão ${params.APP_VERSION} em STG (${env.STG_HOST})"
-        // Exemplos de deploy: ajuste para sua realidade (SSH/curl/kubectl/etc.)
         sh '''
           # Exemplo placeholder:
           echo "scp ${ARTIFACT} user@${STG_HOST}:/opt/apps/hello-jenkins/"
